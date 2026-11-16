@@ -64,7 +64,7 @@ button, select { cursor: pointer; }
 .art .glyph { stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .sanskrit { font-family: "Noto Serif Devanagari", serif; color: #f7d899; }
 .choice-title { font: 500 clamp(1.3rem, 3vw, 2.65rem)/1.08 var(--display); }
-.arrow { position: absolute; inset: auto 24px 22px auto; font-size: 1.15rem; color: #f7d899; }
+.arrow { position: absolute; inset: auto 24px 22px auto; width: 18px; height: 18px; fill: none; stroke: #f7d899; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 
 .wrap { width: min(100% - 36px, 1120px); margin-inline: auto; }
 .chart-header {

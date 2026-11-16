@@ -9,6 +9,20 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const themes = { ramayana: 'rama', mahabharata: 'maha', bhagavatam: 'bhag' };
 let currentChart;
 let activePerson;
+const chartViews = new Map();
+
+function updateScrollControls(canvas) {
+  const control = chartViews.get(canvas);
+  if (!control) return;
+  const maximum = canvas.scrollWidth - canvas.clientWidth;
+  control.bar.hidden = maximum <= 1;
+  control.left.disabled = canvas.scrollLeft <= 1;
+  control.right.disabled = canvas.scrollLeft >= maximum - 1;
+}
+
+const chartResize = new ResizeObserver(entries => {
+  for (const { target } of entries) updateScrollControls(target);
+});
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -71,6 +85,7 @@ function makeSection(group) {
   section.setAttribute('aria-labelledby', heading.id);
 
   const canvas = element('div', '', 'canvas');
+  canvas.id = 'canvas-' + group.id;
   canvas.tabIndex = 0;
   canvas.setAttribute('role', 'region');
   canvas.setAttribute('aria-labelledby', heading.id);
@@ -100,7 +115,23 @@ function makeSection(group) {
     diagram.append(person);
   }
   canvas.append(diagram);
-  section.append(heading, canvas);
+  const bar = element('div', '', 'chart-scroll');
+  bar.hidden = true;
+  const left = element('button', '←');
+  const right = element('button', '→');
+  for (const [button, direction, label] of [[left, -1, 'left'], [right, 1, 'right']]) {
+    button.type = 'button';
+    button.setAttribute('aria-label', 'Scroll ' + group.name + ' ' + label);
+    button.setAttribute('aria-controls', canvas.id);
+    button.addEventListener('click', () => {
+      canvas.scrollBy({ left: direction * canvas.clientWidth * .75, behavior: motion() });
+    });
+  }
+  bar.append(element('span', 'Scroll to see more'), left, right);
+  chartViews.set(canvas, {bar, left, right});
+  chartResize.observe(canvas);
+  canvas.addEventListener('scroll', () => updateScrollControls(canvas), {passive: true});
+  section.append(heading, canvas, bar);
   return section;
 }
 
@@ -162,6 +193,8 @@ function showRoute(initial = false) {
   const slug = location.hash.slice(1);
   const wasViewing = !!currentChart;
   currentChart = Object.hasOwn(charts, slug) ? charts[slug] : null;
+  chartResize.disconnect();
+  chartViews.clear();
   if (detail.open) detail.close();
   landing.hidden = !!currentChart;
   viewer.hidden = !currentChart;

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f2e8">
+  <title>Epic Names</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main id="landing" aria-label="Choose a family chart">
+    <nav class="choices" aria-label="Family charts">
+      <a class="choice rama" href="#ramayana">
+        <span class="art" aria-hidden="true">
+          <svg viewBox="0 0 160 160" fill="none">
+            <circle cx="80" cy="80" r="69"/><circle cx="80" cy="80" r="61" stroke-dasharray="1 5"/>
+            <path class="glyph" d="M46 39c64-19 96 20 76 78m-76-78 76 78M52 109l54-54m-17 1 17-1-1 17M47 114l13-4 3-12"/>
+            <path d="M80 8v13m0 118v13M8 80h13m118 0h13"/>
+          </svg>
+        </span>
+        <span lang="sa" class="sanskrit">रामायण</span>
+        <span class="choice-title">Ramayana</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="choice maha" href="#mahabharata">
+        <span class="art" aria-hidden="true">
+          <svg viewBox="0 0 160 160" fill="none">
+            <circle cx="80" cy="80" r="69"/><circle cx="80" cy="80" r="61" stroke-dasharray="1 5"/>
+            <g class="glyph"><circle cx="80" cy="80" r="38"/><circle cx="80" cy="80" r="30"/><circle cx="80" cy="80" r="7"/>
+            <path d="M80 50v23m0 14v23M50 80h23m14 0h23M59 59l16 16m10 10 16 16m0-42L85 75m-10 10-16 16"/></g>
+            <path d="M80 8v13m0 118v13M8 80h13m118 0h13"/>
+          </svg>
+        </span>
+        <span lang="sa" class="sanskrit">महाभारत</span>
+        <span class="choice-title">Mahabharata</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="choice bhag" href="#bhagavatam">
+        <span class="art" aria-hidden="true">
+          <svg viewBox="0 0 160 160" fill="none">
+            <circle cx="80" cy="80" r="69"/><circle cx="80" cy="80" r="61" stroke-dasharray="1 5"/>
+            <path class="glyph" d="M80 110C60 91 61 72 80 48c19 24 20 43 0 62Zm0 0C49 108 35 97 29 77c21-1 33 4 43 13m8 20c31-2 45-13 51-33-21-1-33 4-43 13m-33 27h50"/>
+            <path d="M80 8v13m0 118v13M8 80h13m118 0h13"/>
+          </svg>
+        </span>
+        <span lang="sa" class="sanskrit">श्रीमद्भागवतम्</span>
+        <span class="choice-title">Srimad Bhagavatam</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </main>
+  <main id="viewer" hidden>
+    <header class="chart-header">
+      <div class="wrap">
+        <a class="back" href="#">← All charts</a>
+        <p class="sanskrit chart-script" id="chart-script" lang="sa"></p>
+        <h1 id="chart-title" tabindex="-1"></h1>
+        <p class="summary" id="summary"></p>
+      </div>
+    </header>
+    <div class="wrap workspace">
+      <div class="tools">
+        <label for="jump">Jump to a section
+          <select id="jump"></select>
+        </label>
+        <form id="search" role="search">
+          <label for="character">Find a character</label>
+          <div class="search-field">
+            <input id="character" type="search" list="names" placeholder="Enter a name" required autocomplete="off">
+            <datalist id="names"></datalist>
+            <button type="submit">Find</button>
+          </div>
+        </form>
+      </div>
+      <p id="search-status" role="status" hidden></p>
+      <p class="hint">Select a character to explore their relationships, including links to other sections.</p>
+      <ul id="legend" aria-label="Diagram legend"></ul>
+      <div id="sections"></div>
+      <details class="sources">
+        <summary>Sources and naming notes</summary>
+        <p id="note"></p>
+        <ul id="source-links"></ul>
+      </details>
+    </div>
+  </main>
+  <dialog id="character-detail" aria-labelledby="person-name">
+    <div class="drawer-header">
+      <div>
+        <p id="person-group" class="section-label"></p>
+        <h2 id="person-name"></h2>
+        <p id="person-role"></p>
+      </div>
+      <form method="dialog"><button aria-label="Close character details" autofocus>×</button></form>
+    </div>
+    <ul id="relationships"></ul>
+  </dialog>
+  <noscript><p class="wrap">Enable JavaScript to explore the charts.</p></noscript>
+</body>
+</html>
